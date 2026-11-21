@@ -44,3 +44,30 @@ the iOS app for now, and none of them builds or tests it:
 To turn one back on, run `gh workflow enable <file> -R whexy/hex`. Their macOS
 jobs need upstream's Blacksmith runners, which this repository does not have,
 so those jobs wait in the queue until they time out.
+
+## iPhone app: WeHex
+
+The fork ships upstream's iPhone app (`ios/`) to TestFlight as **WeHex**, on
+Wenxuan's Apple team (`26DMRHRW6Z`):
+
+| Upstream | Fork |
+| --- | --- |
+| Team `5NZ4Q7NXJ4` | Team `26DMRHRW6Z` |
+| `anomaly.hex.mobile`, `.keyboard`, `.widgets`, `.tests` | `dev.whexy.hex`, `.keyboard`, `.widgets`, `.tests` |
+| App Group `group.anomaly.hex.mobile` | App Group `group.dev.whexy.hex` |
+| Home screen "Hex", keyboard "Hex Keyboard" | "WeHex", "WeHex Keyboard" |
+| Xcode Cloud on `ios-beta-*` tags | [`self-hosted-ios.yml`](workflows/self-hosted-ios.yml) on every iOS change to `dev` |
+
+No upstream file is edited for this. [`ios/fork/identity.sh`](../ios/fork/identity.sh)
+rewrites the identity in a checkout before XcodeGen runs, and fails on any line
+it doesn't expect, so an upstream change to signing stops the build instead of
+shipping a half-renamed app. To build WeHex locally:
+
+```sh
+bash ios/fork/ci.sh prepare   # rewrite, fetch the cleanup model, xcodegen, resolve packages
+bash ios/fork/ci.sh test
+git checkout -- ios           # undo the rewrite before committing
+```
+
+How a build ships, how to retry one, and what expires:
+[operations.md](operations.md).

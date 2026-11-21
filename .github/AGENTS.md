@@ -14,7 +14,12 @@ come on top.
   with `gh workflow disable`, and name new fork workflows `self-hosted-*`.
 - Keep each change one commit, so a rebase can carry it and a fix can be
   folded into it.
+- Never write the fork's Apple identity (team `26DMRHRW6Z`, `dev.whexy.hex`,
+  `group.dev.whexy.hex`, the name WeHex) into an upstream file.
+  `ios/fork/identity.sh` rewrites a checkout before every build and fails on
+  an upstream line it does not expect; when it does, update its rewrites.
 
-Fork-only paths: `.github/README.md`, `.github/AGENTS.md`.
+Fork-only paths: `.github/README.md`, `.github/AGENTS.md`,
+`.github/operations.md`, `.github/workflows/self-hosted-ios.yml`, `ios/fork/`.
 
 Upstream files the fork edits: none.
