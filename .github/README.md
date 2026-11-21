@@ -16,9 +16,11 @@ commit, not the branch.
 ## Upstream workflows
 
 Upstream's workflow files stay unchanged, so rebases never conflict on them.
-The four that publish are disabled in the repository's Actions settings,
-because they would release to upstream's services with upstream's
-credentials:
+All of them except `agent-policy.yml`, upstream's pull request policy check,
+are disabled in the repository's Actions settings.
+
+These publish to upstream's services with upstream's credentials, so they stay
+off:
 
 | Workflow | What it publishes |
 | --- | --- |
@@ -27,6 +29,18 @@ credentials:
 | `release-typescript.yml` | The TypeScript SDK to npm |
 | `deploy.yml` | The website to Cloudflare |
 
-Upstream's build and test workflows stay enabled. Their macOS jobs run on
-Blacksmith runners, which this repository does not have, so those jobs wait
-in the queue until they time out.
+These build and test the desktop app. They are off because the fork ships only
+the iOS app for now, and none of them builds or tests it:
+
+| Workflow | What it checks |
+| --- | --- |
+| `compile.yml` | Clippy on Linux, macOS and Windows, on pull requests |
+| `test-builds.yml` | Unsigned desktop builds on every push to `dev` |
+| `check-linux.yml`, `check-macos.yml`, `check-windows.yml` | Full desktop test suites |
+| `build-desktop.yml`, `windows-installers.yml`, `windows-setup-engine.yml` | Builds that other workflows call |
+| `windows-installer.yml` | Installers around upstream's published Windows release |
+| `aur-check.yml` | Upstream's AUR release key, which this repository does not have |
+
+To turn one back on, run `gh workflow enable <file> -R whexy/hex`. Their macOS
+jobs need upstream's Blacksmith runners, which this repository does not have,
+so those jobs wait in the queue until they time out.
