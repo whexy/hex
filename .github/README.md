@@ -1,6 +1,6 @@
 # Hex (whexy fork)
 
-A private copy of [anomalyco/hex](https://github.com/anomalyco/hex), kept for
+A standalone copy of [anomalyco/hex](https://github.com/anomalyco/hex), kept for
 the iOS app. Upstream's [README](../README.md) describes Hex itself. Rules for
 agents working on fork code are in [AGENTS.md](AGENTS.md).
 
