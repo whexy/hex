@@ -1,6 +1,6 @@
 # Fork
 
-This repository is a private copy of anomalyco/hex. Its `dev` branch is
+This repository is a standalone copy of anomalyco/hex. Its `dev` branch is
 upstream's `dev` with the fork's commits rebased on top (see
 [README.md](README.md)). Upstream's root `AGENTS.md` still applies; these rules
 come on top.
